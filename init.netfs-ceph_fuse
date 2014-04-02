@@ -1,0 +1,61 @@
+#!/bin/bash
+#
+# netfs-ceph_fuse   Mount Ceph and RBD fuse network filesystems.
+#
+# Authors:      Stepan Stipl <stepan@stipl.net>
+#
+#
+# chkconfig: 345 25 75
+# description: Mounts and unmounts ceph and rbd fuse fs (as it DOES NOT support _netdev)
+
+[ -f /etc/sysconfig/network ] || exit 0
+. /etc/init.d/functions
+. /etc/sysconfig/network
+
+CEPHFSTAB=$(awk '!/^#/ && $3 ~ /^(fuse.ceph|fuse.rbd)/ { print $2 }' /etc/fstab)
+CEPHMTAB=$(awk '$1 ~ /^(ceph-fuse|rbd-fuse)/ && $2 != "/" { print $2 }' /proc/mounts)
+
+# See how we were called.
+case "$1" in
+  start)
+        [ ! -f /var/lock/subsys/network ] && exit 0
+        [ "$EUID" != "0" ] && exit 4
+        [ -n "$CEPHFSTAB" ] && {
+        for i in $CEPHFSTAB; do
+            echo $CEPHMTAB | grep $i -q || action $"Mounting Ceph filesystem: " mount $i
+        done
+        }
+    ;;
+  stop)
+        [ "$EUID" != "0" ] && exit 4
+        [ -n "$CEPHMTAB" ] && {
+                for i in $CEPHMTAB; do
+                        action $"Unmounting Ceph filesystem: " umount $i
+                done
+        }
+    ;;
+  status)
+    if [ -f /proc/mounts ] ; then
+        [ -n "$CEPHFSTAB" ] && {
+             echo $"Configured Ceph mountpoints: "
+             for fs in $CEPHFSTAB; do echo $fs ; done
+        }
+    else
+        echo $"/proc filesystem unavailable"
+    fi
+    ;;
+  restart)
+    $0 stop
+    $0 start
+    exit $?
+    ;;
+  reload)
+    $0 start
+    exit $?
+    ;;
+  *)
+    echo $"Usage: $0 {start|stop|restart|reload|status}"
+    exit 2
+esac
+
+exit 0
