@@ -10,7 +10,7 @@ License:        MIT license
 Group:          System
 URL:            https://github.com/stepanstipl/opennebula-ceph_speedo
 Packager:       Stepan Stipl <stepan@stipl.net>
-Source0:        https://github.com/stepanstipl/opennebula-ceph_speedo/archive/%{version}.tar.gz
+Source0:        https://github.com/stepanstipl/opennebula-ceph_speedo/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 Requires:       opennebula-server
 Provides:       %{name} = %{version}-%{release}
 BuildArch:      noarch
