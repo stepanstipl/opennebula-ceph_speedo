@@ -4,7 +4,7 @@
 
 Summary:        OpenNebula fast Ceph drivers
 Name:           opennebula-ceph_speedo
-Version:        0.2.0
+Version:        0.3.1
 Release:        1%{?dist}
 License:        MIT license
 Group:          System
@@ -47,5 +47,7 @@ rm -rf $RPM_BUILD_ROOT
 %{install_dir}/tm/ceph_speedo
 
 %changelog
+* Mon Jun 30 2014 Stepan Stipl <stepan@stipl.net> - 0.3.1
+- Use rbd-fuse and newer, which allows exposing single image 
 * Tue Apr 01 2014 Stepan Stipl <stepan@stipl.net> - 0.1.0
 - initial creation of this package for OpenNebula ceph_speedo 0.1.0
