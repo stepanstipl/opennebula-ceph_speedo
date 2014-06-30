@@ -30,7 +30,8 @@ Ceph tm and datastore driver for Open Nebula with improved performance
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{install_dir}
+mkdir -p $RPM_BUILD_ROOT%{install_dir}/datastore
+mkdir -p $RPM_BUILD_ROOT%{install_dir}/tm
 cp -ad src/datastore $RPM_BUILD_ROOT%{install_dir}/datastore/ceph_speedo
 cp -ad src/tm $RPM_BUILD_ROOT%{install_dir}/tm/ceph_speedo
 
@@ -42,8 +43,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,%{opennebula_user},%{opennebula_group},-)
 
-%{install_prefix}/datastore/ceph_speedo
-%{install_prefix}/tm/ceph_speedo
+%{install_dir}/datastore/ceph_speedo
+%{install_dir}/tm/ceph_speedo
 
 %changelog
 * Tue Apr 01 2014 Stepan Stipl <stepan@stipl.net> - 0.1.0

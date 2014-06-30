@@ -101,8 +101,12 @@ REGISTER_CMD=$(cat <<EOF
     if [ "$FSTYPE" = "raw" ]; then
         $QEMU_IMG create rbd:$RBD_SOURCE ${SIZE}M
     else
-	$QEMU_IMG create rbd:$RBD_SOURCE ${SIZE}M
-	$MKFS_CMD 
+        $QEMU_IMG create rbd:$RBD_SOURCE ${SIZE}M
+        $MKDIR_CMD ${RBD_DIR}/${IMAGE_NAME}
+        $RBDFUSE_CMD ${RBD_DIR}/${IMAGE_NAME} -p one -r ${IMAGE_NAME}
+        $MKFS_CMD
+        $UMOUNT_CMD ${RBD_DIR}/${IMAGE_NAME}
+        $RM_CMD -rf ${RBD_DIR}/${IMAGE_NAME}
     fi
 EOF
 )

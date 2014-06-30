@@ -8,9 +8,9 @@ These drivers allows fast image cloning by using clone features of RBD 2 format 
 Requirements
 ------------
 - Tested on CentOS 6
-- Requires rbd-fuse v0.78 and newer (older version has bug preventing listing images [http://ceph.com/releases/v0-78-released/] - rbd-fuse: fix enumerate_images overflow, memory leak (Ilya Dryomov) - See more at: http://ceph.com/releases/v0-78-released/#sthash.tkCFntpY.dpuf]
-- Requires mounted correct RBD pool in `/data/cephtmp/rbd` datastore property
-- Requires sudo rule allowing oneadmin to run mkfs on nebula nodes listed in `BRIDGE_LIST` property
+- Requires rbd-fuse v0.81 and newer (older does not suppose exposing individual image) 
+- Requires mounted correct RBD pool in $RBD_DIR datastore property, defaults to /var/tmp/rbd, this directory must be writable for oneadmin user
+- Oneadmin nebula user must be member of 'fuse' group
 - All images that you're trying to work with should be RBD version 2 
 
 Installation
@@ -18,7 +18,7 @@ Installation
 - Configure Ceph storage according to `http://docs.opennebula.org/4.4/administration/storage/ceph_ds.html`
 - Install RPM package opennebula-ceph_speedo on OpenNebula master
 - Change your storage `TM_MAD` and `DS_MAD` providers to `ceph_speedo`
-- Make sure to create sudo rule for oneadmin on all the machines in `BRIDGE_LIST`: `oneadminALL=(root) NOPASSWD:/sbin/mkfs*`
+- Create rbd tem dir and make sure `rbd-fuse ${RBD_DIR} -p one -r ${IMAGE_NAME} works when run as oneadmin user (requires working cephx auth, rbd-fuse uses client.admin key)
 - Make sure to convert images you want to work with to RBD 2 format
 
 Issues
