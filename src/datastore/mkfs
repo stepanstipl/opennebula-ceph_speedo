@@ -92,7 +92,7 @@ fi
 
 # ------------ Create the image in the repository ------------
 
-MKFS_CMD=`mkfs_command ${RBD_DIR}/${IMAGE_NAME} ${FSTYPE} ${SIZE}`
+MKFS_CMD=`mkfs_command ${RBD_DIR}/${IMAGE_NAME}/${IMAGE_NAME} ${FSTYPE} ${SIZE}`
 
 REGISTER_CMD=$(cat <<EOF
     set -e
