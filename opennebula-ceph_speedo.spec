@@ -4,7 +4,7 @@
 
 Summary:        OpenNebula fast Ceph drivers
 Name:           opennebula-ceph_speedo
-Version:        0.3.2
+Version:        0.3.4
 Release:        1%{?dist}
 License:        MIT license
 Group:          System
